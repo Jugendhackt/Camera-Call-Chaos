@@ -1,0 +1,4 @@
+- Als JPEG/PNG abspeichern, als Textdatei lesen, einzelne Character lesen -> wieder JPEG/PNG
+- Datamoshing: i-frames löschen
+- verschiedene Kompressionsformate verwenden
+- mergen zwischen geglichten Daten
