@@ -1,12 +1,10 @@
 from tkinter import *
 
-from numpy.core.fromnumeric import size
-
-# Den GUI initialisieren
+# GUI init
 app = Tk()
 
-windowWidth = 700
-windowHeight = 500
+windowWidth = 650
+windowHeight = 450
 
 windowWidthSplit = windowWidth / 2
 windowHeightSplit = windowHeight / 2
@@ -21,6 +19,8 @@ CurrentState = StringVar()
 CurrentState.set("Kamerastand: Normal")
 
 currentState = Label(app)
+
+spinner_blurFilter = Scale(app)
 
 class GradientFrame(Canvas):
     def __init__(self, parent, color1="red", color2="black", **kwargs):
@@ -71,7 +71,10 @@ def colorInvertState():
     CurrentState.set("Kamerastand: Invertierte Farben")
 
 def objectDetectorState():
-    CurrentState.set("Kamerastand: Objectmarkierer")
+    CurrentState.set("Kamerastand: Objektmarkierer")
+
+def blurFilterState():
+    CurrentState.set("Kamerastand: Blurfilter-Effekt")
 
 def assign_widgets():
     currentState = Label(app, textvariable = CurrentState, background = "#271ea6", foreground = "#fff")
@@ -100,6 +103,14 @@ def assign_widgets():
 
     btn_objectHighlight = Button(app, text = "Objektmarkierer", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = objectDetectorState)
     btn_objectHighlight.place(x = 277, y = 70)
+
+    btn_blurFilter = Button(app, text = "Blurfilter-Effekt", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = blurFilterState)
+    btn_blurFilter.place(x = 407, y = 70)
+
+    spinner_blurFilter = Scale(app, from_ = 1, to = 100, length = 142, orient = HORIZONTAL)
+    spinner_blurFilter.place(x = 407, y = 98)
+
+    # end block
 
 def create_window(title, favicon, window_geometry):
     app.title(title)
