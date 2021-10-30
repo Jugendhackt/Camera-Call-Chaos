@@ -85,6 +85,9 @@ def blurFilterState():
 def asciiState():
     CurrentState.set("Kamerastand: ASCII-Effekt")
 
+def recordState():
+    CurrentState.set("Kamerastand: Aufzeichnen")
+
 def refreshRateChanger():
     # gets the number and changes
     numberPickerSelection.set(numberPicker.get())
@@ -132,6 +135,9 @@ def assign_widgets():
 
     numberPicker = Spinbox(app, from_ = 1, to = 60, width = 3, command = refreshRateChanger)
     numberPicker.place(x = 340, y = 168)
+
+    btn_normalState = Button(app, text = "Fake Anwesenheit", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = recordState)
+    btn_normalState.place(x = 153, y = 110)
     # end block
 
 def create_window(title, favicon, window_geometry):
