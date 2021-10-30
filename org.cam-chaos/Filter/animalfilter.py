@@ -1,6 +1,7 @@
 import cv2
 from PIL import Image
 import numpy as np
+import torch
 
 #model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
 def animalfilter(frame, model):
@@ -40,4 +41,20 @@ def animalfilter(frame, model):
                 an_frame = animal_pic_out
                 frame[int(ymin):int(ymax), int(xmin):int(xmax)] = np.array(an_frame)
     return frame
+
+model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
+
+
+vid = cv2.VideoCapture(0)
+while True:
+    ret, frame = vid.read()
+
+
+    cv2.imshow('frame', animalfilter(frame, model))
+
+    if cv2.waitKey(1) == ord('q'):
+        break
+
+vid.release()
+cv2.destroyAllWindows()
 
