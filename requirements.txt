@@ -1,1 +1,2 @@
 pyvirtualcam
+opencv-python
