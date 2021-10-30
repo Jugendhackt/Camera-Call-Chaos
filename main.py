@@ -1,8 +1,9 @@
 import pyvirtualcam
 import numpy as np
 import cv2 as cv
-
+import pathlib
 from jpeg_artifacts import jpeg_corruption, jpeg_compression
+from loop import loop
 
 capture = cv.VideoCapture(0)
 fmt = pyvirtualcam.PixelFormat.BGR
@@ -13,7 +14,8 @@ if __name__ == "__main__":
 
         while True:
             isTrue, frame = capture.read()
-            frame = jpeg_corruption(frame)
+            frame = np.flip(frame, axis=1)
+            frame = loop(frame, pathlib.Path("recording").exists(), pathlib.Path("glitch").exists())
             cam.send(frame)
             cam.sleep_until_next_frame()
 
