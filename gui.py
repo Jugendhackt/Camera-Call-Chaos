@@ -1,7 +1,9 @@
 from tkinter import *
 
+from numpy.core.fromnumeric import size
+
 # Den GUI initialisieren
-root = Tk()
+app = Tk()
 
 windowWidth = 700
 windowHeight = 500
@@ -10,13 +12,45 @@ windowWidthSplit = windowWidth / 2
 windowHeightSplit = windowHeight / 2
 
 WINDOW_BACKGROUND_COLOR = "#10286e"
-BUTTON_BACKGROUND_COLOR = "#2f7375"
+BUTTON_BACKGROUND_COLOR = "#30536b"
+TEXT_COLOR = "#00f7ff"
+
+windowGeo = (str(windowWidth) + "x" + str(windowHeight))
 
 CurrentState = StringVar()
-currentState = Label(root)
+CurrentState.set("Kamerastand: Normal")
+
+currentState = Label(app)
+
+class GradientFrame(Canvas):
+    def __init__(self, parent, color1="red", color2="black", **kwargs):
+        Canvas.__init__(self, parent, **kwargs)
+        self._color1 = color1
+        self._color2 = color2
+        self.bind("<Configure>", self._draw_gradient)
+
+    def _draw_gradient(self, event=None):
+        '''Draw the gradient'''
+        self.delete("gradient")
+        width = self.winfo_width()
+        height = self.winfo_height()
+        limit = width
+        (r1, g1, b1) = self.winfo_rgb(self._color1)
+        (r2, g2, b2) = self.winfo_rgb(self._color2)
+        r_ratio = float(r2 - r1) / limit
+        g_ratio = float(g2 - g1) / limit
+        b_ratio = float(b2 - b1) / limit
+
+        for i in range(limit):
+            nr = int(r1 + (r_ratio * i))
+            ng = int(g1 + (g_ratio * i))
+            nb = int(b1 + (b_ratio * i))
+            color = "#%4.4x%4.4x%4.4x" % (nr,ng,nb)
+            self.create_line(i,0,i,height, tags=("gradient",), fill=color)
+        self.lower("gradient")
 
 def normalState():
-    CurrentState.set("Kamerstand: Normal")
+    CurrentState.set("Kamerastand: Normal")
 
 def glitchState():
     CurrentState.set("Kamerastand: Glitch")
@@ -24,32 +58,66 @@ def glitchState():
 def pixelatedState():
     CurrentState.set("Kamerastand: Pixeliert")
 
-def assign_widgets(obj):
-    CurrentState.set("Kamerastand: Normal")
+def highPixelatedState():
+    CurrentState.set("Kamerastand: Hoch-Pixeliert")
 
-    currentState = Label(obj, textvariable=CurrentState, background=WINDOW_BACKGROUND_COLOR)
-    currentState.place(x=(windowWidthSplit - 70), y=0)
+def lowPixelatedState():
+    CurrentState.set("Kamerastand: Leicht Pixeliert")
 
-    btn_normalState = Button(obj, text="Normale Kamera", background=BUTTON_BACKGROUND_COLOR, command=normalState)
-    btn_normalState.place(x=0, y=50)
+def oldMovieState():
+    CurrentState.set("Kamerastand: Altes Film")
 
-    btn_glitchState = Button(obj, text="Glich-Kamera", background=BUTTON_BACKGROUND_COLOR, command=glitchState)
-    btn_glitchState.place(x=137, y=50)
+def colorInvertState():
+    CurrentState.set("Kamerastand: Invertierte Farben")
 
-    btn_pixelState = Button(obj, text="Pixeliert", background=BUTTON_BACKGROUND_COLOR, command=pixelatedState)
-    btn_pixelState.place(x=255, y=50)
+def objectDetectorState():
+    CurrentState.set("Kamerastand: Objectmarkierer")
+
+def assign_widgets():
+    currentState = Label(app, textvariable = CurrentState, background = "#271ea6", foreground = "#fff")
+    currentState.place(x = 1, y = 1)
+
+    btn_normalState = Button(app, text = "Normale Kamera", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = normalState)
+    btn_normalState.place(x = 10, y = 30)
+
+    btn_glitchState = Button(app, text = "Glitch-Kamera", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = glitchState)
+    btn_glitchState.place(x = 147, y = 30)
+
+    btn_pixelState = Button(app, text = "Pixeliert", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = pixelatedState)
+    btn_pixelState.place(x = 268, y = 30)
+
+    btn_highPixeled = Button(app, text = "Hoch-Pixeliert", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = highPixelatedState)
+    btn_highPixeled.place(x = 355, y = 30)
+
+    btn_oldMovie = Button(app, text = "Altes Film", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = oldMovieState)
+    btn_oldMovie.place(x = 475, y = 30)
+
+    btn_colorInvert = Button(app, text = "Farben invertieren", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = colorInvertState)
+    btn_colorInvert.place(x = 10, y = 70)
+
+    btn_lowPixeled = Button(app, text = "Leicht Pixeliert", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = lowPixelatedState)
+    btn_lowPixeled.place(x = 153, y = 70)
+
+    btn_objectHighlight = Button(app, text = "Objektmarkierer", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = objectDetectorState)
+    btn_objectHighlight.place(x = 277, y = 70)
 
 def create_window(title, favicon, window_geometry):
-    root.title(title)
-    root.configure(background=WINDOW_BACKGROUND_COLOR)
-    root.geometry(window_geometry)
+    app.title(title)
+    app.geometry(window_geometry)
 
-    faviconImg = PhotoImage(file=favicon)
-    root.iconphoto(False, faviconImg)
+    faviconImg = PhotoImage(file = favicon)
+    app.iconphoto(False, faviconImg)
 
-    assign_widgets(root)
+    gradientBackground = GradientFrame(app, color1 = "#202a99", color2 = "#08044a", border = 0, relief = "sunken")
+    gradientBackground.pack(fill = "both", expand = True)
 
-    root.mainloop()
+    assign_widgets()
+
+    # f1.pack(side="top", fill="both", expand=True)
+
+    app.mainloop()
 
 # Window-Größe: (Horizontale Größe x Vertikale Größe)
-create_window("Camera Call Chaos", "favicon.png", (str(windowWidth) + "x" + str(windowHeight)))
+create_window("Camera Call Chaos", "favicon.png", windowGeo)
+
+# end file
