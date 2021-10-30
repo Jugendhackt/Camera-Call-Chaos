@@ -6,12 +6,15 @@ app = Tk()
 windowWidth = 650
 windowHeight = 450
 
+EFFECT_REFRESH_RATE = 1
+
 windowWidthSplit = windowWidth / 2
 windowHeightSplit = windowHeight / 2
 
 WINDOW_BACKGROUND_COLOR = "#10286e"
 BUTTON_BACKGROUND_COLOR = "#30536b"
 TEXT_COLOR = "#00f7ff"
+LABEL_BACKGROUND = "#2654de"
 
 windowGeo = (str(windowWidth) + "x" + str(windowHeight))
 
@@ -21,6 +24,7 @@ CurrentState.set("Kamerastand: Normal")
 currentState = Label(app)
 
 spinner_blurFilter = Scale(app)
+numberPicker = Spinbox(app)
 
 class GradientFrame(Canvas):
     def __init__(self, parent, color1="red", color2="black", **kwargs):
@@ -76,8 +80,16 @@ def objectDetectorState():
 def blurFilterState():
     CurrentState.set("Kamerastand: Blurfilter-Effekt")
 
+def asciiState():
+    CurrentState.set("Kamerastand: ASCII-Effekt")
+
+def refreshRateChanger():
+    # gets the number and changes
+    # print(numberPicker.get())
+    pass
+
 def assign_widgets():
-    currentState = Label(app, textvariable = CurrentState, background = "#271ea6", foreground = "#fff")
+    currentState = Label(app, textvariable = CurrentState, background = LABEL_BACKGROUND, foreground = "#fff")
     currentState.place(x = 1, y = 1)
 
     btn_normalState = Button(app, text = "Normale Kamera", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = normalState)
@@ -110,6 +122,14 @@ def assign_widgets():
     spinner_blurFilter = Scale(app, from_ = 1, to = 100, length = 142, orient = HORIZONTAL)
     spinner_blurFilter.place(x = 407, y = 98)
 
+    btn_ascii = Button(app, text = "ASCII-Effekt", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = asciiState)
+    btn_ascii.place(x = 10, y = 110)
+
+    label0 = Label(app, text = "Bildwiederholfrequenz für Kameraeffekte (jede Sekunden):", border = 0, background = LABEL_BACKGROUND, foreground = "#fff")
+    label0.place(x = 0, y = 170)
+
+    numberPicker = Spinbox(app, from_ = 1, to = 60, width = 3, command = refreshRateChanger)
+    numberPicker.place(x = 340, y = 168)
     # end block
 
 def create_window(title, favicon, window_geometry):
