@@ -11,6 +11,8 @@ EFFECT_REFRESH_RATE = 1
 windowWidthSplit = windowWidth / 2
 windowHeightSplit = windowHeight / 2
 
+numberPickerSelection = IntVar()
+
 WINDOW_BACKGROUND_COLOR = "#10286e"
 BUTTON_BACKGROUND_COLOR = "#30536b"
 TEXT_COLOR = "#00f7ff"
@@ -85,8 +87,8 @@ def asciiState():
 
 def refreshRateChanger():
     # gets the number and changes
-    # print(numberPicker.get())
-    pass
+    numberPickerSelection.set(numberPicker.get())
+    print(numberPickerSelection.get())
 
 def assign_widgets():
     currentState = Label(app, textvariable = CurrentState, background = LABEL_BACKGROUND, foreground = "#fff")
@@ -144,8 +146,7 @@ def create_window(title, favicon, window_geometry):
 
     assign_widgets()
 
-    # f1.pack(side="top", fill="both", expand=True)
-
+    app.resizable(False, False)
     app.mainloop()
 
 # Window-Größe: (Horizontale Größe x Vertikale Größe)
