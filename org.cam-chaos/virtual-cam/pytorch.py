@@ -4,11 +4,11 @@ import cv2
 # Model
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
 
-vid = cv2.VideoCapture(0);
+vid = cv2.VideoCapture(0)
 while True:
-    ret, frame = vid.read();
+    ret, frame = vid.read()
 
-    img = frame;
+    img = frame
     h, w, c = img.shape
     result = model(img)
 
