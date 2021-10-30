@@ -22,8 +22,8 @@ def analyseImage(image):
         res = float(i2[4])
 
     if results.names[0] == "person" and res >= 0.5:
-        return "person"
+        return True
     else:
-        return "no person"
+        return False
 
     
