@@ -12,9 +12,11 @@ from loop import loop
 capture = cv.VideoCapture(os.environ["WEBCAM_INDEX"] if "WEBCAM_INDEX" in os.environ
                           else 0)
 fmt = pyvirtualcam.PixelFormat.BGR
+WIDTH = int(capture.get(cv.CAP_PROP_FRAME_WIDTH))
+HEIGHT = int(capture.get(cv.CAP_PROP_FRAME_HEIGHT))
 
 if __name__ == "__main__":
-    with pyvirtualcam.Camera(1280, 720, 20, fmt=fmt) as cam:
+    with pyvirtualcam.Camera(WIDTH, HEIGHT, 20, fmt=fmt, device="/dev/video0") as cam:
         print(f'Using virtual camera: {cam.device}')
 
         while True:
