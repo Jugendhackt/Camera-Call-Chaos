@@ -5,6 +5,7 @@ from main import run
 
 class State:
     recording = False
+    glitch = False
 
 # GUI init
 app = Tk()
@@ -90,13 +91,22 @@ def objectDetectorState():
 
 def blurFilterState():
     CurrentState.set("Kamerastand: Blurfilter-Effekt")
-    state.recording = True
 
 def asciiState():
     CurrentState.set("Kamerastand: ASCII-Effekt")
 
-def recordState():
+def recordStartState():
     CurrentState.set("Kamerastand: Aufzeichnen")
+    state.recording = True
+    state.glitch = False
+
+def recordStopState():
+    CurrentState.set("Kamerastand: Loop")
+    state.recording = False
+
+def goLiveState():
+    CurrentState.set("Kamerastand: Live")
+    state.glitch = True
 
 def refreshRateChanger():
     # gets the number and changes
@@ -145,8 +155,14 @@ def assign_widgets():
     numberPicker = Spinbox(app, textvariable = numberPickerSelection, from_ = 1, to = 60, width = 3, command = refreshRateChanger)
     numberPicker.place(x = 340, y = 168)
 
-    btn_normalState = Button(app, text = "Fake Anwesenheit", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = recordState)
-    btn_normalState.place(x = 153, y = 110)
+    btn_normalState = Button(app, text = "Aufzeichnung starten", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = recordStartState)
+    btn_normalState.place(x = 0, y = 200)
+
+    btn_normalState = Button(app, text = "Aufzeichnung stoppen", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = recordStopState)
+    btn_normalState.place(x = 200, y = 200)
+
+    btn_normalState = Button(app, text = "Live gehen", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = goLiveState)
+    btn_normalState.place(x = 400, y = 200)
     # end block
 
 def create_window(title, favicon, window_geometry):

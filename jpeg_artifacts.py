@@ -15,7 +15,7 @@ def jpeg_corruption(frame):
     try:
      return np.array(img)
     except OSError:
-     return jpeg_artifacts(frame)
+     return jpeg_compression(frame)
 
 
 def jpeg_compression(frame):
