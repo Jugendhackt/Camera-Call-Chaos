@@ -100,7 +100,6 @@ def recordState():
 
 def refreshRateChanger():
     # gets the number and changes
-    numberPickerSelection.set(numberPicker.get())
     print(numberPickerSelection.get())
 
 def assign_widgets():
@@ -143,7 +142,7 @@ def assign_widgets():
     label0 = Label(app, text = "Bildwiederholfrequenz für Kameraeffekte (jede Sekunden):", border = 0, background = LABEL_BACKGROUND, foreground = "#fff")
     label0.place(x = 0, y = 170)
 
-    numberPicker = Spinbox(app, from_ = 1, to = 60, width = 3, command = refreshRateChanger)
+    numberPicker = Spinbox(app, textvariable = numberPickerSelection, from_ = 1, to = 60, width = 3, command = refreshRateChanger)
     numberPicker.place(x = 340, y = 168)
 
     btn_normalState = Button(app, text = "Fake Anwesenheit", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = recordState)
