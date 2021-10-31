@@ -2,10 +2,15 @@ import pyvirtualcam
 import numpy as np
 import cv2 as cv
 import pathlib
+import os
 from jpeg_artifacts import jpeg_corruption, jpeg_compression
 from loop import loop
 
-capture = cv.VideoCapture(0)
+
+
+
+capture = cv.VideoCapture(os.environ["WEBCAM_INDEX"] if "WEBCAM_INDEX" in os.environ
+                          else 0)
 fmt = pyvirtualcam.PixelFormat.BGR
 
 if __name__ == "__main__":
