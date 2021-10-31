@@ -22,13 +22,10 @@ def run(state):
 
         while True:
             isTrue, frame = capture.read()
-<<<<<<< HEAD
             frame = np.flip(frame, axis=1)
             frame = loop(frame, pathlib.Path("recording").exists(), pathlib.Path("glitch").exists())
-=======
             state.recording
             frame = jpeg_corruption(frame)
->>>>>>> 70406ef1848d6f6aea4bd0a1f79f18d7de57b4ee
             cam.send(frame)
             cam.sleep_until_next_frame()
 
