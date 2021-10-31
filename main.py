@@ -14,7 +14,7 @@ def run(state):
     WIDTH = int(capture.get(cv.CAP_PROP_FRAME_WIDTH))
     HEIGHT = int(capture.get(cv.CAP_PROP_FRAME_HEIGHT))
 
-    with pyvirtualcam.Camera(WIDTH, HEIGHT, 20, fmt=fmt, device="/dev/video0") as cam:
+    with pyvirtualcam.Camera(WIDTH, HEIGHT, 20, fmt=fmt) as cam:
         print(f'Using virtual camera: {cam.device}')
 
         while True:
