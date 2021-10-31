@@ -7,15 +7,13 @@ from jpeg_artifacts import jpeg_corruption, jpeg_compression
 from loop import loop
 
 
+def run(state):
+    capture = cv.VideoCapture(os.environ["WEBCAM_INDEX"] if "WEBCAM_INDEX" in os.environ
+                              else 0)
+    fmt = pyvirtualcam.PixelFormat.BGR
+    WIDTH = int(capture.get(cv.CAP_PROP_FRAME_WIDTH))
+    HEIGHT = int(capture.get(cv.CAP_PROP_FRAME_HEIGHT))
 
-
-capture = cv.VideoCapture(os.environ["WEBCAM_INDEX"] if "WEBCAM_INDEX" in os.environ
-                          else 0)
-fmt = pyvirtualcam.PixelFormat.BGR
-WIDTH = int(capture.get(cv.CAP_PROP_FRAME_WIDTH))
-HEIGHT = int(capture.get(cv.CAP_PROP_FRAME_HEIGHT))
-
-if __name__ == "__main__":
     with pyvirtualcam.Camera(WIDTH, HEIGHT, 20, fmt=fmt, device="/dev/video0") as cam:
         print(f'Using virtual camera: {cam.device}')
 
