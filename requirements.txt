@@ -1,2 +1,3 @@
 pyvirtualcam
+Pillow
 opencv-python
