@@ -1,4 +1,10 @@
 from tkinter import *
+import threading
+from main import run
+
+
+class State:
+    recording = False
 
 # GUI init
 app = Tk()
@@ -27,6 +33,9 @@ currentState = Label(app)
 
 spinner_blurFilter = Scale(app)
 numberPicker = Spinbox(app)
+
+
+state = State()
 
 class GradientFrame(Canvas):
     def __init__(self, parent, color1="red", color2="black", **kwargs):
@@ -81,6 +90,7 @@ def objectDetectorState():
 
 def blurFilterState():
     CurrentState.set("Kamerastand: Blurfilter-Effekt")
+    state.recording = True
 
 def asciiState():
     CurrentState.set("Kamerastand: ASCII-Effekt")
@@ -156,6 +166,8 @@ def create_window(title, favicon, window_geometry):
     app.mainloop()
 
 # Window-Größe: (Horizontale Größe x Vertikale Größe)
+t = threading.Thread(target=run, args=(state,))
+t.start()
 create_window("Camera Call Chaos", "favicon.png", windowGeo)
 
 # end file
