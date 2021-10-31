@@ -30,11 +30,10 @@ while True:
         width = int(xmax) - int(xmin)
         name = result.names[int(detection[5])]
         if conf >= 0.5 and name == "person" :
-            if width == mWidth:
-                label = '%s: %d%%' % (name, int(conf * 100))
-                cv2.putText(frame, label, (int(xmin), int(ymin)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0))
-                cv2.rectangle(frame, (int(xmin), int(ymin)), (int(xmax), int(ymax)), (0, 255, 100), 5)
-            else:
+            if width != mWidth:
+                #label = '%s: %d%%' % (name, int(conf * 100))
+                #cv2.putText(frame, label, (int(xmin), int(ymin)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0))
+                #cv2.rectangle(frame, (int(xmin), int(ymin)), (int(xmax), int(ymax)), (0, 255, 100), 5)
                 blur_frame = cv2.GaussianBlur(img[int(ymin):int(ymax), int(xmin):int(xmax)], (11, 11), 10, 10, cv2.BORDER_REFLECT)
                 frame[int(ymin):int(ymax), int(xmin):int(xmax)] = blur_frame
 

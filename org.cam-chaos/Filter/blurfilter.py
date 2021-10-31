@@ -1,4 +1,5 @@
 import cv2
+import torch
 
 #model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
 def blurfilter(frame, model):
@@ -24,13 +25,27 @@ def blurfilter(frame, model):
         width = int(xmax) - int(xmin)
         name = result.names[int(detection[5])]
         if conf >= 0.5 and name == "person":
-            if width == mWidth:
-                label = '%s: %d%%' % (name, int(conf * 100))
-                cv2.putText(frame, label, (int(xmin), int(ymin)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0))
-                cv2.rectangle(frame, (int(xmin), int(ymin)), (int(xmax), int(ymax)), (0, 255, 100), 5)
-            else:
-                blur_frame = cv2.GaussianBlur(img[int(ymin):int(ymax), int(xmin):int(xmax)], (11, 11), 10, 10,
+            if width != mWidth:
+                #label = '%s: %d%%' % (name, int(conf * 100))
+                #cv2.putText(frame, label, (int(xmin), int(ymin)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0))
+                #cv2.rectangle(frame, (int(xmin), int(ymin)), (int(xmax), int(ymax)), (0, 255, 100), 5)
+            #else:
+                blur_frame = cv2.GaussianBlur(img[int(ymin):int(ymax), int(xmin):int(xmax)], (111, 111), 200, 200,
                                               cv2.BORDER_REFLECT)
                 frame[int(ymin):int(ymax), int(xmin):int(xmax)] = blur_frame
 
     return frame
+
+model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
+
+vid = cv2.VideoCapture(0)
+while True:
+    ret, frame = vid.read()
+
+    cv2.imshow('frame', blurfilter(frame, model))
+
+    if cv2.waitKey(1) == ord('q'):
+        break
+
+vid.release()
+cv2.destroyAllWindows()

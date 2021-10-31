@@ -8,8 +8,7 @@ def animalfilter(frame, model):
 
     image = Image.open("Animal.jpg")
 
-    img = frame;
-    h, w, c = img.shape
+    img = frame
     result = model(img)
     mWidth = 0
     result_img0 = result.xyxy[0]
@@ -31,11 +30,11 @@ def animalfilter(frame, model):
         width = int(xmax) - int(xmin)
         name = result.names[int(detection[5])]
         if conf >= 0.2 and name == "person":
-            if width == mWidth:
-                label = '%s: %d%%' % (name, int(conf * 100))
-                cv2.putText(frame, label, (int(xmin), int(ymin)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0))
-                cv2.rectangle(frame, (int(xmin), int(ymin)), (int(xmax), int(ymax)), (0, 255, 100), 5)
-            else:
+            if width != mWidth:
+                #label = '%s: %d%%' % (name, int(conf * 100))
+                #cv2.putText(frame, label, (int(xmin), int(ymin)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0))
+                #cv2.rectangle(frame, (int(xmin), int(ymin)), (int(xmax), int(ymax)), (0, 255, 100), 5)
+            #else:
                 size = (width, int(ymax) - int(ymin))
                 animal_pic_out = image.resize(size)
                 an_frame = animal_pic_out
