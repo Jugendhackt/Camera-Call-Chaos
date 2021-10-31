@@ -1,9 +1,7 @@
 import pyvirtualcam
 import numpy as np
 import cv2 as cv
-<<<<<<< HEAD
 import pathlib
-=======
 import os
 >>>>>>> 70406ef1848d6f6aea4bd0a1f79f18d7de57b4ee
 from jpeg_artifacts import jpeg_corruption, jpeg_compression
