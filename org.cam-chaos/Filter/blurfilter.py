@@ -35,17 +35,3 @@ def blurfilter(frame, model):
                 frame[int(ymin):int(ymax), int(xmin):int(xmax)] = blur_frame
 
     return frame
-
-model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
-
-vid = cv2.VideoCapture(0)
-while True:
-    ret, frame = vid.read()
-
-    cv2.imshow('frame', blurfilter(frame, model))
-
-    if cv2.waitKey(1) == ord('q'):
-        break
-
-vid.release()
-cv2.destroyAllWindows()

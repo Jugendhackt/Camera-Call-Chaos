@@ -9,6 +9,7 @@ RESIZEABLE = False
 class State:
     recording = False
     glitch = False
+    filter = ""
 
 # GUI init
 app = Tk()
@@ -72,50 +73,56 @@ class GradientFrame(Canvas):
 
 def normalState():
     CurrentState.set("Kamerastand: Normal")
+    state.filter = ""
     if DEBUGGING:
         print("virtualCamera is back on Normal State")
 
-def glitchState():
-    CurrentState.set("Kamerastand: Glitch (Epilepsy Warnung)")
+def jpeg_corruption():
+    state.filter = "jpeg_corruption"
+    CurrentState.set("Kamerastand: JPEG corruption")
     if DEBUGGING:
         print("glitching through the camera (epilepsy warning)")
 
-def pixelatedState():
-    CurrentState.set("Kamerastand: Pixeliert")
+def jpeg_compression():
+    state.filter = "jpeg_compression"
+    CurrentState.set("Kamerastand: JPEG compression")
     if DEBUGGING:
         print("virtualCamera has now the default pixeled state")
 
-def highPixelatedState():
-    CurrentState.set("Kamerastand: Hoch-Pixeliert")
+def ascii():
+    CurrentState.set("Kamerastand: ASCII")
+    state.filter = "ascii"
     if DEBUGGING:
         print("virtualCamera has now the high pixeled state")
 
 def lowPixelatedState():
-    CurrentState.set("Kamerastand: Leicht Pixeliert")
+    state.filter = "binary"
+    CurrentState.set("Kamerastand: Binary")
     if DEBUGGING:
         print("virtualCamera has now the low pixeled state")
 
 def oldMovieState():
-    CurrentState.set("Kamerastand: Altes Film")
+    state.filter = "blurfilter"
+    CurrentState.set("Kamerastand: Blur Filter")
     if DEBUGGING:
         print("setting virtualCamera filter as \"old movie\"")
 
 def colorInvertState():
-    CurrentState.set("Kamerastand: Invertierte Farben")
+    state.filter = "edgeFilter"
+    CurrentState.set("Kamerastand: Edge Filter")
     if DEBUGGING:
         print("inverting colors on virtualCamera")
 
-def objectDetectorState():
-    CurrentState.set("Kamerastand: Objektmarkierer")
-
-    if DEBUGGING:
-        print("onObjectDetectorState")
-
 def blurFilterState():
-    CurrentState.set("Kamerastand: Blurfilter-Effekt")
+    state.filter = "waterfilter"
+    CurrentState.set("Kamerastand: Water Filter")
 
     if DEBUGGING:
         print("onBlurFilterState")
+
+def animalFilterState():
+    state.filter = "animalfilter"
+    CurrentState.set("Kamerastand: Animal Filter")
 
 def asciiState():
     CurrentState.set("Kamerastand: ASCII-Effekt")
@@ -158,41 +165,38 @@ def assign_widgets():
     btn_normalState = Button(app, text = "Normale Kamera", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = normalState)
     btn_normalState.place(x = 10, y = 30)
 
-    btn_glitchState = Button(app, text = "Glitch-Kamera", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = glitchState)
-    btn_glitchState.place(x = 147, y = 30)
+    btn_jpeg_corruption = Button(app, text = "JPEG corruption", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = jpeg_corruption)
+    btn_jpeg_corruption.place(x = 147, y = 30)
 
-    btn_pixelState = Button(app, text = "Pixeliert", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = pixelatedState)
-    btn_pixelState.place(x = 268, y = 30)
+    btn_pixelState = Button(app, text = "JPEG compression", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = jpeg_compression)
+    btn_pixelState.place(x = 300, y = 30)
 
-    btn_highPixeled = Button(app, text = "Hoch-Pixeliert", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = highPixelatedState)
-    btn_highPixeled.place(x = 355, y = 30)
+    btn_highPixeled = Button(app, text = "ASCII", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = ascii)
+    btn_highPixeled.place(x = 500, y = 30)
 
-    btn_oldMovie = Button(app, text = "Altes Film", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = oldMovieState)
-    btn_oldMovie.place(x = 475, y = 30)
+    btn_oldMovie = Button(app, text = "Binary", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = lowPixelatedState)
+    btn_oldMovie.place(x = 10, y = 70)
 
-    btn_colorInvert = Button(app, text = "Farben invertieren", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = colorInvertState)
-    btn_colorInvert.place(x = 10, y = 70)
+    btn_colorInvert = Button(app, text = "Blur", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = oldMovieState)
+    btn_colorInvert.place(x = 90, y = 70)
 
-    btn_lowPixeled = Button(app, text = "Leicht Pixeliert", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = lowPixelatedState)
-    btn_lowPixeled.place(x = 153, y = 70)
+    btn_lowPixeled = Button(app, text = "Edge", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = colorInvertState)
+    btn_lowPixeled.place(x = 170, y = 70)
 
-    btn_objectHighlight = Button(app, text = "Objektmarkierer", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = objectDetectorState)
-    btn_objectHighlight.place(x = 277, y = 70)
+    btn_blurFilter = Button(app, text = "Animal Filter", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = animalFilterState)
+    btn_blurFilter.place(x = 330, y = 70)
 
-    btn_blurFilter = Button(app, text = "Blurfilter-Effekt", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = blurFilterState)
-    btn_blurFilter.place(x = 407, y = 70)
+    btn_blurFilter = Button(app, text = "Water", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = blurFilterState)
+    btn_blurFilter.place(x = 230, y = 70)
 
-    spinner_blurFilter = Scale(app, from_ = 1, to = 100, length = 142, orient = HORIZONTAL, command = spinnerChangeListener)
-    spinner_blurFilter.place(x = 407, y = 98)
-
-    btn_ascii = Button(app, text = "ASCII-Effekt", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = asciiState)
-    btn_ascii.place(x = 10, y = 110)
-
-    label0 = Label(app, text = "Bildwiederholfrequenz für Kameraeffekte (jede Sekunden):", border = 0, background = LABEL_BACKGROUND, foreground = "#fff")
-    label0.place(x = 0, y = 170)
-
-    numberPicker = Spinbox(app, textvariable = numberPickerSelection, from_ = 1, to = 60, width = 3, command = refreshRateChanger)
-    numberPicker.place(x = 340, y = 168)
+    # spinner_blurFilter = Scale(app, from_ = 1, to = 100, length = 142, orient = HORIZONTAL, command = spinnerChangeListener)
+    # spinner_blurFilter.place(x = 407, y = 98)
+    #
+    # label0 = Label(app, text = "Bildwiederholfrequenz für Kameraeffekte (jede Sekunden):", border = 0, background = LABEL_BACKGROUND, foreground = "#fff")
+    # label0.place(x = 0, y = 170)
+    #
+    # numberPicker = Spinbox(app, textvariable = numberPickerSelection, from_ = 1, to = 60, width = 3, command = refreshRateChanger)
+    # numberPicker.place(x = 340, y = 168)
 
     btn_normalState = Button(app, text = "Aufzeichnung starten", border = 0, background = BUTTON_BACKGROUND_COLOR, foreground = TEXT_COLOR, command = recordStartState)
     btn_normalState.place(x = 0, y = 200)

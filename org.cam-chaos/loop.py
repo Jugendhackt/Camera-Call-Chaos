@@ -1,7 +1,7 @@
 import pyvirtualcam
 import numpy as np
 import cv2 as cv
-from jpeg_artifacts import jpeg_corruption, jpeg_compression
+from Filter.jpeg_artifacts import jpeg_corruption, jpeg_compression
 
 frames = []
 current_frame = 0
@@ -18,7 +18,7 @@ def loop(frame, rec, glitch):
     elif frames:
         if glitch:
             frame_count+=1
-            if frame_count < 10:
+            if frame_count < 5:
                 return jpeg_corruption(frame)
             frame_count = 0
             frames = []
@@ -30,7 +30,6 @@ def loop(frame, rec, glitch):
             current_frame += 1 if forward else -1
             if current_frame - 1 <= 0 or current_frame >= len(frames):
                 forward = not forward
-            print(current_frame)
             return frames[current_frame - 1]
     else:
         return frame
